@@ -32,3 +32,4 @@ override.tf.json - файл override.tf.json;
 terraform.rc - файл terraform.rc
 
 #Edit text ByCharm git
+#test commit2
