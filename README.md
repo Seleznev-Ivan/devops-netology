@@ -17,3 +17,6 @@ override.tf.json - файл override.tf.json
 *_override.tf.json - все файлы, оканчивающиеся на _override.tf.json
 .terraformrc - все файлы, которые заканчиваются на *.terraformrc
 terraform.rc - файл terraform.rc
+
+#Появились теги и ветка :)
+
