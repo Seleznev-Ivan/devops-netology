@@ -30,3 +30,6 @@ override.tf.json - файл override.tf.json;
 .terraformrc - все файлы, которые заканчиваются на *.terraformrc;
 
 terraform.rc - файл terraform.rc
+
+#Edit text ByCharm git
+#test commit2
