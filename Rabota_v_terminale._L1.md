@@ -61,6 +61,8 @@
 
 **Решение:**
 По умолчанию виртуальной машине Ubuntu выделены: оперативная память 1024 Mb, 2 процессора, жесткий диск, оптический привод, видеоадаптер 4 Mb, сеть Nat.
+![VirtualBox](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/3.1-1.jpg)
+
 
 3. Ознакомьтесь с возможностями конфигурации VirtualBox через Vagrantfile: [документация](https://www.vagrantup.com/docs/providers/virtualbox/configuration.html). Как добавить оперативной памяти или ресурсов процессора виртуальной машине?
 
@@ -76,6 +78,7 @@ Vagrant.configure("2") do |config|
         end
  end
 ```
+![VirtualBox](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/3.1-2.jpg)
 
 4. Команда `vagrant ssh` из директории, в которой содержится Vagrantfile, позволит вам оказаться внутри виртуальной машины без каких-либо дополнительных настроек. Попрактикуйтесь в выполнении обсуждаемых команд в терминале Ubuntu.
 
