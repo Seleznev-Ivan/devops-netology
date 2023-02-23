@@ -28,6 +28,8 @@
 
 **Решение:**
 
+Команда `cd` это встроенная команда bash. Проверяется командой `type cd`
+
 2. Какая альтернатива без pipe команде `grep <some_string> <some_file> | wc -l`?   
 
 	<details>
@@ -41,25 +43,54 @@
 
 **Решение:**
 
+Команда `grep postfix /var/log/maillog | wc -l` ищет строку `postfix` в файле `maillog` и выводит количество строк, в которых была найдена. Аналогичный результат будет получен, если использовать параметр `-c`. Команда будет `grep -c postfix /var/log/maillog`
+
 3. Какой процесс с PID `1` является родителем для всех процессов в вашей виртуальной машине Ubuntu 20.04? 
 
 **Решение:**
 
+Идентификатор процесса PID `1` является зарезервированным в операционной системе Ubuntu и принадлежит программе `init`. Она является символьной ссылкой на `systemd`. Этот процесс запускается ядром перед всеми последующими процессами и он является родительским процессом для всех остальных процессов.
+![pstree](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/3.2-1.jpg)
+
 4. Как будет выглядеть команда, которая перенаправит вывод stderr `ls` на другую сессию терминала?
 
  **Решение:**
+ 
+```bash
+ivan@ubuntupc:~$ ls -lah  ///root 2> /dev/pts/2
+```
+В другом терминале отобразится ошибка `ls: невозможно открыть каталог '///root': Отказано в доступе`
+
 
 5. Получится ли одновременно передать команде файл на stdin и вывести ее stdout в другой файл? Приведите работающий пример. 
 
 **Решение:**
 
+Да, будет работать
+```bash
+ivan@ubuntupc:~$ echo "Hello Netology" > file1
+ivan@ubuntupc:~$ cat < file1 1> file2
+ivan@ubuntupc:~$ cat file2
+Hello Netology
+```
+
 6. Получится ли, находясь в графическом режиме, вывести данные из PTY в какой-либо из эмуляторов TTY? Сможете ли вы наблюдать выводимые данные?
 
  **Решение:**
+
+Да, получится. 
+```bash
+echo "Hello TTY :)" > /dev/tty1
+```
  
 7. Выполните команду `bash 5>&1`. К чему она приведет? Что будет, если вы выполните `echo netology > /proc/$$/fd/5`? Почему так происходит?
  
  **Решение:**
+ 
+Команда `bash 5>&1` запустит экземпляр баш с файловым дескриптором №5 и перенаправит его на файловый дескриптор №1.
+Команда `echo netology > /proc/$$/fd/5` отобразит в выводе слово "netology". 
+Здесь специальный параметр `$$` выдаст PID теущего shell, соответственно эхо передаст значение в текущий баш с файловым дескриптором №5.
+
  
 8. Получится ли в качестве входного потока для pipe использовать только stderr команды, не потеряв при этом отображение stdout на pty?  
 	Напоминаем: по умолчанию через pipe передается только stdout команды слева от `|` на stdin команды справа.
@@ -67,17 +98,61 @@
 
 **Решение:**
 
+```bash
+vagrant@vagrant:~$ ls 3>&1 1>&2 2>&3 test
+ls: cannot access 'test': No such file or directory
+vagrant@vagrant:~$ ls 3>&1 1>&2 2>&3 test | grep or
+ls: cannot access 'test': No such file or directory
+```
+
 9. Что выведет команда `cat /proc/$$/environ`? Как еще можно получить аналогичный по содержанию вывод?
 
 **Решение:**
+
+Команда `cat /proc/$$/environ` выводит информацию о переменных окружения процесса
+```bash
+USER=ivanLOGNAME=ivanHOME=/home/ivanPATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/binSHELL=/bin/bashTERM=xtermXDG_SESSION_ID=8XDG_RUNTIME_DIR=/run/user/1000DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/busXDG_SESSION_TYPE=ttyXDG_SESSION_CLASS=userMOTD_SHOWN=pamLANG=ru_RU.UTF-8SSH_CLIENT=192.168.7.113 54763 22SSH_CONNECTION=192.168.7.113 54763 192.168.7.116 22SSH_TTY=/dev/pts/0
+Подобную информацию выводит команда env
+SHELL=/bin/bash
+PWD=/home/ivan
+LOGNAME=ivan
+XDG_SESSION_TYPE=tty
+MOTD_SHOWN=pam
+HOME=/home/ivan
+LANG=ru_RU.UTF-8
+LS_COLORS=rs=0:........
+SSH_CONNECTION=192.168.7.113 54763 192.168.7.116 22
+LESSCLOSE=/usr/bin/lesspipe %s %s
+XDG_SESSION_CLASS=user
+TERM=xterm
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=ivan
+SHLVL=1
+XDG_SESSION_ID=8
+XDG_RUNTIME_DIR=/run/user/1000
+SSH_CLIENT=192.168.7.113 54763 22
+XDG_DATA_DIRS=/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+SSH_TTY=/dev/pts/0
+_=/usr/bin/env
+```
 
 10. Используя `man`, опишите что доступно по адресам `/proc/<PID>/cmdline`, `/proc/<PID>/exe`.
 
 **Решение:**
 
+Описание `/proc/<PID>/cmdline`: Этот доступный только для чтения файл содержит полную командную строку для процесса, если этот процесс не является зомби. В последнем случае в этом файле ничего нет: то есть чтение этого файла вернет 0 символов. Аргументы командной строки отображаются в этом файле как набор строк, разделенных нулевыми байтами ('\0'), с дополнительным нулевым байтом после последней строки.
+Описание `/proc/<PID>/exe`: этот файл представляет собой символическую ссылку, содержащую фактический путь к выполняемой команде. Эта символическая ссылка может быть разыменована обычным образом; попытка открыть его откроет исполняемый файл.
+
+
 11. Узнайте, какую наиболее старшую версию набора инструкций SSE поддерживает ваш процессор с помощью `/proc/cpuinfo`.
 
 **Решение:**
+
+Команда `grep sse /proc/cpuinfo` перечислит найденные упоминания SSE. И у данного процессора Intel(R) Core(TM) i5-10310U самая старшая версия будет `sse4_2`
+
+![sse](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/3.2-2.jpg)
 
 12. При открытии нового окна терминала и `vagrant ssh` создается новая сессия и выделяется pty.  
 	Это можно подтвердить командой `tty`, которая упоминалась в лекции 3.2.  
@@ -92,13 +167,33 @@
   
   **Решение:**
   
+Чтобы изменить поведение нужно добавить параметр `-t`
+```bash
+vagrant@vagrant:~$ ssh -t localhost 'tty'
+vagrant@localhost's password:
+/dev/pts/1
+Connection to localhost closed.
+```
+  
 13. Бывает, что есть необходимость переместить запущенный процесс из одной сессии в другую. Попробуйте сделать это, воспользовавшись `reptyr`. Например, так можно перенести в `screen` процесс, который вы запустили по ошибке в обычной SSH-сессии.
 
 **Решение:**
 
+Сначала я установил `reptyr`, т.к. не было в системе
+```bash
+vagrant@vagrant:~$ sudo apt install reptyr
+vagrant@vagrant:~$ ps -a
+ UP--DIR TY          TIME CMD
+   4187 pts/1    00:00:00 mc
+   4196 pts/0    00:00:00 ps
+vagrant@vagrant:~$ sudo reptyr -T 4187
+```
+
 14. `sudo echo string > /root/new_file` не даст выполнить перенаправление под обычным пользователем, так как перенаправлением занимается процесс shell'а, который запущен без `sudo` под вашим пользователем. Для решения данной проблемы можно использовать конструкцию `echo string | sudo tee /root/new_file`. Узнайте? что делает команда `tee` и почему в отличие от `sudo echo` команда с `sudo tee` будет работать.
 
 **Решение:**
+
+Командв `sudo tee`  делает вывод одновременно на стандартное устройство вывода и в файл перенаправления не требуется, `sudo tee` сразу пишет в файл от имени `root`.
 
 ----
 
