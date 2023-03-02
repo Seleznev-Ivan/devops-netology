@@ -145,6 +145,10 @@ node_network_receive_errs_total{device="eth0"} 0
 
 **Решение:**
 
+Результат запуска Netdata на localhost:
+![Netdata](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/03-sysadmin-04-os-netdata.png)
+
+
 4. Можно ли по выводу `dmesg` понять, осознаёт ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?
 
 **Решение:**
