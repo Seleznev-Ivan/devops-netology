@@ -183,6 +183,29 @@ vagrant@vagrant:~$ ulimit -Sn
 
 **Решение:**
 
+Логинимся под root:
+```bash
+vagrant@vagrant:~$ sudo -i
+root@vagrant:~#
+```
+
+Запускаем sleep 1h через команду unshare
+```bash
+root@vagrant:~# unshare --fork --pid --mount-proc sleep 1h
+```
+Смотрим запущенный процесс:
+```bash
+root@vagrant:~# ps -e | grep sleep
+   1482 pts/0    00:00:00 sleep
+```
+Проверяем:
+```bash
+root@vagrant:~# nsenter --target 1482 --pid --mount --uts --ipc --net ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   5476   580 pts/0    S+   07:49   0:00 sleep 1h
+root           2  0.0  0.2   8888  3320 pts/0    R+   07:51   0:00 ps aux
+```
+
 7. Найдите информацию о том, что такое `:(){ :|:& };:`. Запустите эту команду в своей виртуальной машине Vagrant с Ubuntu 20.04 (**это важно, поведение в других ОС не проверялось**). Некоторое время всё будет плохо, после чего (спустя минуты) — ОС должна стабилизироваться. Вызов `dmesg` расскажет, какой механизм помог автоматической стабилизации.  
 Как настроен этот механизм по умолчанию, и как изменить число процессов, которое можно создать в сессии?
 
