@@ -149,6 +149,12 @@ node_network_receive_errs_total{device="eth0"} 0
 
 **Решение:**
 
+ Да, можно 
+```bash
+vagrant@vagrant:~$ dmesg | grep Hypervisor
+[    0.000000] Hypervisor detected: KVM
+```
+
 5. Как настроен sysctl `fs.nr_open` на системе по умолчанию? Определите, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?
 
 **Решение:**
