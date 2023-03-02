@@ -171,7 +171,7 @@ vagrant@vagrant:~$ dmesg | grep Hypervisor
 - жесткое ограничение файлов:
 ```bash
 vagrant@vagrant:~$ ulimit -Hn
-4096
+1048576
 ```
 - мягкое ограничение файлов:
 ```bash
