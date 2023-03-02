@@ -90,11 +90,45 @@ Mar 01 20:25:43 vagrant node_exporter[1364]: ts=2023-03-01T20:25:43.489Z caller=
 Mar 01 20:25:43 vagrant node_exporter[1364]: ts=2023-03-01T20:25:43.489Z caller=node_exporter.go:117 level=info collect>
 ...
 ```
-
+Всё запускается нормально.
 
 2. Изучите опции node_exporter и вывод `/metrics` по умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
 **Решение:**
+
+Использую команду:
+```bash
+vagrant@vagrant:~$ curl localhost:9100/metrics
+```
+
+Мои опции:
+Процессор:
+```bash
+node_cpu_seconds_total{cpu="0",mode="idle"} 2444.63
+node_cpu_seconds_total{cpu="0",mode="iowait"} 2.93
+node_cpu_seconds_total{cpu="0",mode="irq"} 0
+node_cpu_seconds_total{cpu="0",mode="softirq"} 1.97
+node_cpu_seconds_total{cpu="0",mode="system"} 14.48
+```
+Память:
+```bash
+node_memory_MemAvailable_bytes 9.3036544e+08
+node_memory_MemFree_bytes 6.89586176e+08
+node_memory_MemTotal_bytes 1.28677888e+09
+```
+Диск:
+```bash
+node_filesystem_avail_bytes{device="/dev/mapper/ubuntu--vg-ubuntu--lv",fstype="ext4",mountpoint="/"} 2.6855673856e+10
+node_filesystem_avail_bytes{device="/dev/sda2",fstype="ext4",mountpoint="/boot"} 1.805344768e+09
+node_filesystem_device_error{device="/dev/mapper/ubuntu--vg-ubuntu--lv",fstype="ext4",mountpoint="/"} 0
+node_filesystem_device_error{device="/dev/sda2",fstype="ext4",mountpoint="/boot"} 0
+```
+Сеть:
+```bash
+node_network_protocol_type{device="eth0"} 1
+node_network_mtu_bytes{device="eth0"} 1500
+node_network_receive_errs_total{device="eth0"} 0
+```
 
 3. Установите в свою виртуальную машину [Netdata](https://github.com/netdata/netdata). Воспользуйтесь [готовыми пакетами](https://packagecloud.io/netdata/netdata/install) для установки (`sudo apt install -y netdata`). 
    
@@ -118,6 +152,22 @@ Mar 01 20:25:43 vagrant node_exporter[1364]: ts=2023-03-01T20:25:43.489Z caller=
 5. Как настроен sysctl `fs.nr_open` на системе по умолчанию? Определите, что означает этот параметр. Какой другой существующий лимит не позволит достичь такого числа (`ulimit --help`)?
 
 **Решение:**
+
+Команда `sysctl fs.nr_open` выводит значение по-умолчанию:
+`fs.nr_open = 1048576`
+Этот параметр означает, что любой процесс в системе не сможет открыть более 1048576 файлов.
+
+Проверить ограничения на открытие файлов в Linux:
+- жесткое ограничение файлов:
+```bash
+vagrant@vagrant:~$ ulimit -Hn
+4096
+```
+- мягкое ограничение файлов:
+```bash
+vagrant@vagrant:~$ ulimit -Sn
+1024
+```
 
 6. Запустите любой долгоживущий процесс (не `ls`, который отработает мгновенно, а, например, `sleep 1h`) в отдельном неймспейсе процессов; покажите, что ваш процесс работает под PID 1 через `nsenter`. Для простоты работайте в этом задании под root (`sudo -i`). Под обычным пользователем требуются дополнительные опции (`--map-root-user`) и т. д.
 
