@@ -226,6 +226,7 @@ root           2  0.0  0.2   8888  3320 pts/0    R+   07:51   0:00 ps aux
 
 Настройки по-умолчанию можно посмотреть в файле  
 `vagrant@vagrant:~$ cat /usr/lib/systemd/system/user-.slice.d/10-defaults.conf`
+
 Содержимое файла 
 
 ```bash
