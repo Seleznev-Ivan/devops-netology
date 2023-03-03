@@ -222,6 +222,37 @@ root           2  0.0  0.2   8888  3320 pts/0    R+   07:51   0:00 ps aux
 
 `cgroup` — группа процессов в Linux, для которой механизмами ядра наложена изоляция и установлены ограничения на некоторые вычислительные ресурсы (процессорные, сетевые, ресурсы памяти, ресурсы ввода-вывода).
 
+По умолчанию максимальное количество задач, которые `systemd` разрешит для каждого пользователя, составляет 33% от максимального (параметр `TasksMax`).
+
+Настройки по-умолчанию можно посмотреть в файле  
+`vagrant@vagrant:~$ cat /usr/lib/systemd/system/user-.slice.d/10-defaults.conf`
+Содержимое файла 
+
+```bash
+#  SPDX-License-Identifier: LGPL-2.1+
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=User Slice of UID %j
+Documentation=man:user@.service(5)
+After=systemd-user-sessions.service
+StopWhenUnneeded=yes
+
+[Slice]
+TasksMax=33%
+```
+
+Чтобы узнать максимальное число задач, нужно выполнить команду:
+```bash
+vagrant@vagrant:~$ sudo sysctl kernel.threads-max
+kernel.threads-max = 30503
+```
 
 *В качестве решения отправьте ответы на вопросы и опишите, как эти ответы были получены.*
 
