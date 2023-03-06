@@ -85,12 +85,11 @@ users-MacBook-Pro:netology_project user$ vagrant destroy
 ==> default: Destroying VM and associated drives...
 ```
 
-
-
 4. Используя `fdisk`, разбейте первый диск на два раздела: 2 Гб и оставшееся пространство.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:~$ sudo fdisk /dev/sdb
 
 Welcome to fdisk (util-linux 2.34).
@@ -126,7 +125,8 @@ Command (m for help): w
 The partition table has been altered.
 Calling ioctl() to re-read partition table.
 Syncing disks.
-
+```
+```bash
 vagrant@sysadm-fs:~$ lsblk
 NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
 loop0                       7:0    0   62M  1 loop /snap/core20/1611
@@ -141,18 +141,21 @@ sdb                         8:16   0  2.5G  0 disk
 ├─sdb1                      8:17   0    2G  0 part
 └─sdb2                      8:18   0  511M  0 part
 sdc                         8:32   0  2.5G  0 disk
-
+```
 
 5. Используя `sfdisk`, перенесите эту таблицу разделов на второй диск.
 
 **Решение:**
 
-Сначала создаю копию данных о разделе с диска sdb, используя команду
+Сначала создаю копию данных о разделе с диска `sdb`, используя команду
 
+```bash
 vagrant@sysadm-fs:~$ sudo sfdisk -d /dev/sdb > part-sdb.txt
+```
 
-И теперь можно записать таблицу разделов sdb на диск sdc:
+И теперь можно записать таблицу разделов `sdb` на диск `sdc`:
 
+```bash
 vagrant@sysadm-fs:~$ sudo sfdisk /dev/sdc < part-sdb.txt
 Checking that no-one is using this disk right now ... OK
 
@@ -182,15 +185,18 @@ Device     Boot   Start     End Sectors  Size Id Type
 The partition table has been altered.
 Calling ioctl() to re-read partition table.
 Syncing disks.
-
+```
 
 6. Соберите `mdadm` RAID1 на паре разделов 2 Гб.
 
 **Решение:**
 
 Создаю RAID1:
+```bash
 vagrant@sysadm-fs:~$ sudo mdadm --create --verbose /dev/md0 -l 1 -n 2 /dev/sd{b,c}1
+```
 и подтверждаю создание :
+```bash
 mdadm: Note: this array has metadata at the start and
     may not be suitable as a boot device.  If you plan to
     store '/boot' on this device please ensure that
@@ -200,8 +206,8 @@ mdadm: size set to 2094080K
 Continue creating array? y
 mdadm: Defaulting to version 1.2 metadata
 mdadm: array /dev/md0 started.
-
-В итоге будет создан RAID1 /dev/md0
+```
+В итоге будет создан RAID1 `/dev/md0`
 
 
 7. Соберите `mdadm` RAID0 на второй паре маленьких разделов.
@@ -209,12 +215,13 @@ mdadm: array /dev/md0 started.
 **Решение:**
 
 Аналогично создаю RAID0:
+```bash
 vagrant@sysadm-fs:~$ sudo mdadm --create --verbose /dev/md1 -l 0 -n 2 /dev/sd{b,c}2
 mdadm: chunk size defaults to 512K
 mdadm: Defaulting to version 1.2 metadata
 mdadm: array /dev/md1 started.
-
-Будет создан RAID0 /dev/md1
+```
+Будет создан RAID0 `/dev/md1`
 
 
 8. Создайте два независимых PV на получившихся md-устройствах.
@@ -222,35 +229,39 @@ mdadm: array /dev/md1 started.
 **Решение:**
 
 Создаю 2 независимых PV:
+```bash
 vagrant@sysadm-fs:~$ sudo pvcreate /dev/md0
   Physical volume "/dev/md0" successfully created.
 vagrant@sysadm-fs:~$ sudo pvcreate /dev/md1
   Physical volume "/dev/md1" successfully created.
+```
 
-
-9. Создайте общую volume-group на этих двух PV.
+9. Создайте общую `volume-group` на этих двух PV.
 
 **Решение:**
 
-Создаю общую volume-group "MyGroup":
+Создаю общую `volume-group "MyGroup"`:
+```bash
 vagrant@sysadm-fs:~$ sudo vgcreate MyGroup /dev/md0 /dev/md1
   Volume group "MyGroup" successfully created
-
+```
 
 10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
 **Решение:**
 
 Создаю LV на 100 Мб:
+```bash
 vagrant@sysadm-fs:~$ sudo lvcreate -L 100M -n lv100 MyGroup /dev/md1
   Logical volume "lv100" created.
-
+```
 
 11. Создайте `mkfs.ext4` ФС на получившемся LV.
 
 **Решение:**
 
-Создаю файловую систему ext4 на lv100:
+Создаю файловую систему ext4 на `lv100`:
+```bash
 vagrant@sysadm-fs:~$ sudo mkfs.ext4 /dev/MyGroup/lv100
 mke2fs 1.45.5 (07-Jan-2020)
 Creating filesystem with 25600 4k blocks and 25600 inodes
@@ -259,23 +270,28 @@ Allocating group tables: done
 Writing inode tables: done
 Creating journal (1024 blocks): done
 Writing superblocks and filesystem accounting information: done
-
+```
 
 12. Смонтируйте этот раздел в любую директорию, например, `/tmp/new`.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:~$ mkdir /tmp/new
 vagrant@sysadm-fs:~$ sudo mount /dev/MyGroup/lv100 /tmp/new/
-
+```
 
 13. Поместите туда тестовый файл, например, `wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz`.
 
 **Решение:**
 
+
+```bash
 vagrant@sysadm-fs:~$ cd /tmp/new/
 vagrant@sysadm-fs:/tmp/new$
+```
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ sudo wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
 --2023-03-06 08:37:58--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
 Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
@@ -287,12 +303,13 @@ Saving to: ‘/tmp/new/test.gz’
 /tmp/new/test.gz    100%[===================>]  23.31M  4.81MB/s    in 4.8s
 
 2023-03-06 08:38:03 (4.89 MB/s) - ‘/tmp/new/test.gz’ saved [24439568/24439568]
-
+```
 
 14. Прикрепите вывод `lsblk`.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ sudo lsblk
 NAME                      MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
 loop0                       7:0    0   62M  1 loop  /snap/core20/1611
@@ -315,7 +332,7 @@ sdc                         8:32   0  2.5G  0 disk
 └─sdc2                      8:34   0  511M  0 part
   └─md1                     9:1    0 1018M  0 raid0
     └─MyGroup-lv100       253:1    0  100M  0 lvm   /tmp/new
-
+```
 
 15. Протестируйте целостность файла:
 
@@ -327,32 +344,36 @@ sdc                         8:32   0  2.5G  0 disk
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ gzip -t /tmp/new/test.gz
 vagrant@sysadm-fs:/tmp/new$ echo $?
 0
-
+```
 
 16. Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ sudo pvmove -n lv100 /dev/md1 /dev/md0
   /dev/md1: Moved: 60.00%
   /dev/md1: Moved: 100.00%
-
+```
 
 17. Сделайте `--fail` на устройство в вашем RAID1 md.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ sudo mdadm --fail /dev/md0 /dev/sdb1
 mdadm: set /dev/sdb1 faulty in /dev/md0
-
+```
 
 18. Подтвердите выводом `dmesg`, что RAID1 работает в деградированном состоянии.
 
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ sudo dmesg | grep md0
 [ 1225.600557] md/raid1:md0: not clean -- starting background reconstruction
 [ 1225.600577] md/raid1:md0: active with 2 out of 2 mirrors
@@ -361,7 +382,7 @@ vagrant@sysadm-fs:/tmp/new$ sudo dmesg | grep md0
 [ 1236.234101] md: md0: resync done.
 [ 2090.196951] md/raid1:md0: Disk failure on sdb1, disabling device.
                md/raid1:md0: Operation continuing on 1 devices.
-
+```
 
 19. Протестируйте целостность файла — он должен быть доступен несмотря на «сбойный» диск:
 
@@ -374,15 +395,17 @@ vagrant@sysadm-fs:/tmp/new$ sudo dmesg | grep md0
 **Решение:**
 
 Повторно выполняю команду тестирования целостности файла:
+```bash
 vagrant@sysadm-fs:/tmp/new$ gzip -t /tmp/new/test.gz
 vagrant@sysadm-fs:/tmp/new$ echo $?
 0
-
+```
 
 20. Погасите тестовый хост — `vagrant destroy`.
  
 **Решение:**
 
+```bash
 vagrant@sysadm-fs:/tmp/new$ exit
 logout
 Connection to 127.0.0.1 closed.
@@ -390,7 +413,7 @@ users-MacBook-Pro:netology_project user$ vagrant destroy
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
-
+```
 
 *В качестве решения пришлите ответы на вопросы и опишите, как они были получены.*
 
