@@ -84,6 +84,7 @@ users-MacBook-Pro:netology_project user$ vagrant destroy
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
 ```
+![NewVM](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/NewVM.jpg)
 
 4. Используя `fdisk`, разбейте первый диск на два раздела: 2 Гб и оставшееся пространство.
 
