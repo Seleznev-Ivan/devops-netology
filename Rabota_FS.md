@@ -76,13 +76,14 @@
 
 **Решение:**
 
-Командой vagrant destroy удаляем имеющуюся виртуальную машину. На основе предложенной конфигурации создадим новую виртуальную машину (Ubuntu 20.04, 2 CPU, 2 ГБ ОЗУ, 2 диска по 2.5 Гб.
+Командой `vagrant destroy` удаляем имеющуюся виртуальную машину. На основе предложенной конфигурации создадим новую виртуальную машину (Ubuntu 20.04, 2 CPU, 2 ГБ ОЗУ, 2 диска по 2.5 Гб.
 
+```bash
 users-MacBook-Pro:netology_project user$ vagrant destroy
     default: Are you sure you want to destroy the 'default' VM? [y/N] y
 ==> default: Forcing shutdown of VM...
 ==> default: Destroying VM and associated drives...
-
+```
 
 
 
