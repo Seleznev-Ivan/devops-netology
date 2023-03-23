@@ -112,7 +112,7 @@ Mode-6(balance-alb) – Адаптивная балансировка нагру
 Для балансировки нагрузки есть опции: balance-rr, balance-xor, balance-tlb, balance-alb.
 
 ```bash
-[root@netology ~]# cat /proc/net/bonding/bond0
+[root@ubuntutest ~]# cat /proc/net/bonding/bond0
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
 Bonding Mode: load balancing (round-robin)
@@ -137,7 +137,7 @@ Link Failure Count: 0
 Permanent HW addr: 00:15:5d:d0:0e:0d
 Slave queue ID: 0
 
-[root@netology ~]# nmcli device status
+[root@ubuntutest ~]# nmcli device status
 DEVICE  TYPE      STATE           CONNECTION
 bond0   bond      подключено      bond0
 eth0    ethernet  подключено      bond-slave-eth0
