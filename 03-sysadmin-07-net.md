@@ -43,38 +43,51 @@
 **Решение:**
 
 Для разделения на несколько виртуальных сетей используется технология VLAN.
-Для управления VLAN на Linux CentOS 7 можно использовать команду `vconfig`
-Ниже пример создания и отображения VLAN7 для сетевого интерфейса `eth0`:
+Для управления VLAN на Linux CentOS 7 можно использовать команду `vconfig` или создать конфиг для нового Vlan.
+Список сетевых интерфейсов, включая VLAN8 для сетевого интерфейса `eth1`:
 
 ```bash
-[root@centos7test ~]# vconfig add eth0 7
-Added VLAN with VID == 7 to IF -:eth0:-
-[root@centos7test ~]# ip a
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 
-1000
+[root@centos7test network-scripts]# ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 
-1000
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
     link/ether 00:15:5d:05:2e:35 brd ff:ff:ff:ff:ff:ff
     inet 192.168.5.236/24 brd 192.168.5.255 scope global noprefixroute eth0
        valid_lft forever preferred_lft forever
     inet6 fe80::215:5dff:fe05:2e35/64 scope link
        valid_lft forever preferred_lft forever
-3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 
-1000
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
     link/ether 00:15:5d:05:2e:41 brd ff:ff:ff:ff:ff:ff
     inet 192.168.100.53/24 brd 192.168.100.255 scope global noprefixroute eth1
        valid_lft forever preferred_lft forever
     inet6 fe80::215:5dff:fe05:2e41/64 scope link
        valid_lft forever preferred_lft forever
-5: eth0.7@eth0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 
-1000
-    link/ether 00:15:5d:05:2e:35 brd ff:ff:ff:ff:ff:ff
+4: eth1.8@eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    link/ether 00:15:5d:05:2e:41 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.8.53/24 brd 192.168.8.255 scope global noprefixroute eth1.8
+       valid_lft forever preferred_lft forever
+    inet6 fe80::215:5dff:fe05:2e41/64 scope link
+       valid_lft forever preferred_lft forever
  ```   
+ 
+ Конфигурационный файл vlan: 
+ ```bash
+[root@centos7test ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth1.8
+#vlan8
+DEVICE=eth1.8
+BOOTPROTO=none
+ONBOOT=yes
+IPADDR=192.168.8.53
+NETMASK=255.255.255.0
+USERCTL=no
+NETWORK=192.168.8.0
+VLAN=yes
+```
+
 
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
