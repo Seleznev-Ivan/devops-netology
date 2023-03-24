@@ -263,6 +263,112 @@ udp порт 68 - это порт bootpc
 
 7. Установите bird2, настройте динамический протокол маршрутизации RIP.
 
+**Решение:**
+
+Устанавливаю bird2 на Ubuntu:
+```bash
+ivan@ubuntutest:~$ sudo apt install bird2
+[sudo] password for ivan:
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  libssh-gcrypt-4
+Suggested packages:
+  bird2-doc
+The following NEW packages will be installed:
+  bird2 libssh-gcrypt-4
+0 upgraded, 2 newly installed, 0 to remove and 49 not upgraded.
+Need to get 650 kB of archives.
+After this operation, 1741 kB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libssh-gcrypt-4 amd64 0.9.6-2build1 [222 kB]
+Get:2 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 bird2 amd64 2.0.8-2 [428 kB]
+Fetched 650 kB in 0s (3588 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package libssh-gcrypt-4:amd64.
+(Reading database ... 64085 files and directories currently installed.)
+Preparing to unpack .../libssh-gcrypt-4_0.9.6-2build1_amd64.deb ...
+Unpacking libssh-gcrypt-4:amd64 (0.9.6-2build1) ...
+Selecting previously unselected package bird2.
+Preparing to unpack .../bird2_2.0.8-2_amd64.deb ...
+Unpacking bird2 (2.0.8-2) ...
+Setting up libssh-gcrypt-4:amd64 (0.9.6-2build1) ...
+Setting up bird2 (2.0.8-2) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 78.)
+debconf: falling back to frontend: Readline
+Creating config file /etc/bird/bird.conf with new version
+Created symlink /etc/systemd/system/multi-user.target.wants/bird.service → /lib/systemd/system/bird.service.
+Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
+debconf: unable to initialize frontend: Dialog
+debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 78.)
+debconf: falling back to frontend: Readline
+Scanning processes...
+Scanning linux images...
+Running kernel seems to be up-to-date.
+No services need to be restarted.
+No containers need to be restarted.
+No user sessions are running outdated binaries.
+No VM guests are running outdated hypervisor (qemu) binaries on this host.
+```
+
+Включаю автозапуск:
+```bash
+ivan@ubuntutest:~$ sudo systemctl enable bird
+Synchronizing state of bird.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable bird
+Created symlink /etc/systemd/system/multi-user.target.wants/bird.service → /lib/systemd/system/bird.service.
+```
+
+Редактирую конфигфайл:
+```bash
+ivan@ubuntutest:~$ sudo nano /etc/bird/bird.conf
+```
+
+Добавляю в конфиг настройку протокола rip:
+```bash
+#Protocol rip
+protocol rip {
+        ipv4 {
+                import all;
+                export all;
+        };
+        interface "eth1" {
+                update time 10;
+                timeout time 60;
+        };
+}
+```
+
+Перезапускаю bird:
+```bash
+ivan@ubuntutest:~$ sudo systemctl restart bird
+```
+
+Проверяю статус запуска:
+```bash
+ivan@ubuntutest:~$ sudo systemctl status bird
+● bird.service - BIRD Internet Routing Daemon
+     Loaded: loaded (/lib/systemd/system/bird.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2023-03-24 07:10:11 UTC; 2min 13s ago
+    Process: 2867 ExecStartPre=/usr/lib/bird/prepare-environment (code=exited, status=0/SUCCESS)
+    Process: 2873 ExecStartPre=/usr/sbin/bird -p (code=exited, status=0/SUCCESS)
+   Main PID: 2875 (bird)
+      Tasks: 1 (limit: 1249)
+     Memory: 796.0K
+        CPU: 9ms
+     CGroup: /system.slice/bird.service
+             └─2875 /usr/sbin/bird -f -u bird -g bird
+Mar 24 07:10:11 ubuntutest systemd[1]: Stopping BIRD Internet Routing Daemon...
+Mar 24 07:10:11 ubuntutest systemd[1]: bird.service: Deactivated successfully.
+Mar 24 07:10:11 ubuntutest systemd[1]: Stopped BIRD Internet Routing Daemon.
+Mar 24 07:10:11 ubuntutest bird[2875]: Chosen router ID 172.30.251.35 according to interface eth0
+Mar 24 07:10:11 ubuntutest systemd[1]: Starting BIRD Internet Routing Daemon...
+Mar 24 07:10:11 ubuntutest bird[2875]: Started
+Mar 24 07:10:11 ubuntutest systemd[1]: Started BIRD Internet Routing Daemon.
+```
+
 8. Установите Netbox, создайте несколько IP-префиксов, и, используя curl, проверьте работу API.
 
 ----
