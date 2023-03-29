@@ -54,6 +54,14 @@
 
 **Решение:**
 
+```bash
+ivan@ubuntutest:~$ sudo tcpdump -c 100 -w ~/mydump.pcap
+tcpdump: listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+100 packets captured
+106 packets received by filter
+0 packets dropped by kernel
+```
+![wireshark](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/03-sysadmin-09-security-wireshark.jpg)
 
 *В качестве решения приложите: скриншоты, выполняемые команды, комментарии (при необходимости).*
 
