@@ -26,15 +26,17 @@
 1. Установите плагин Bitwarden для браузера. Зарегестрируйтесь и сохраните несколько паролей.
 
 **Решение:**
-
+![bitwarden](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/03-sysadmin-09-security-bitwarden.jpg)
 
 2. Установите Google Authenticator на мобильный телефон. Настройте вход в Bitwarden-акаунт через Google Authenticator OTP.
 
 **Решение:**
+![bitwarden_auth](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/03-sysadmin-09-security-bitwarden_auth.jpg)
 
 3. Установите apache2, сгенерируйте самоподписанный сертификат, настройте тестовый сайт для работы по HTTPS.
 
 **Решение:**
+![apache](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/03-sysadmin-09-security-apache.jpg)
 
 4. Проверьте на TLS-уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК и т. п.).
 
