@@ -71,6 +71,55 @@
 
 **Решение:**
 
+Устанавливаю ufw:
+```bash
+ivan@ubuntutest:~$ sudo apt install ufw
+```
+
+Проверяю статус запуска ufw:
+```bash
+ivan@ubuntutest:~$ sudo ufw status
+Status: inactive
+```
+
+Открываю доступ к порту 22 (ssh):
+```bash
+ivan@ubuntutest:~$ sudo ufw allow ssh
+Rules updated
+Rules updated (v6)
+```
+Открываю доступ к порту 80 (http):
+```bash
+ivan@ubuntutest:~$ sudo ufw allow http
+Rules updated
+Rules updated (v6)
+```
+Открываю доступ к порту 443 (https):
+```bash
+ivan@ubuntutest:~$ sudo ufw allow https
+Rules updated
+Rules updated (v6)
+```
+Включаю ufw:
+```bash
+ivan@ubuntutest:~$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+```
+Проверяю статус и разрешенные порты:
+```bash
+ivan@ubuntutest:~$ sudo ufw status
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere
+80/tcp                     ALLOW       Anywhere
+443                        ALLOW       Anywhere
+22/tcp (v6)                ALLOW       Anywhere (v6)
+80/tcp (v6)                ALLOW       Anywhere (v6)
+443 (v6)                   ALLOW       Anywhere (v6)
+```
 ----
 
 ### Правила приёма домашнего задания
