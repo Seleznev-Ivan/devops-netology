@@ -101,6 +101,35 @@ Last login: Sun Apr  2 00:28:33 2023 from gateway
 
 **Решение:**
 
+Переименовываю ключи на сервере:
+```bash
+[ivan@centos-vm0 ~]$ mv ~/.ssh/id_rsa ~/.ssh/mykey
+[ivan@centos-vm0 ~]$ mv ~/.ssh/id_rsa.pub ~/.ssh/mykey.pub
+```
+Создаю файл конфигурации, чтобы указать имя сервера для подключения вместо логина и адреса:
+```bash
+[ivan@centos-vm0 ~]$ nano ~/.ssh/config
+```
+Содержимое файла конфигурации:
+```bash
+Host centos-vm1
+    HostName 192.168.8.11
+    User ivan
+    Port 22
+    IdentityFile ~/.ssh/mykey
+```
+Настраиваю права на файл. Этот файл должен быть доступен для чтения и записи только пользователю и не должен быть доступен для других::
+```bash
+[ivan@centos-vm0 ~]$ sudo chmod 600 ~/.ssh/config
+```
+Проверяю подключение к другому серверу:
+```bash
+[ivan@centos-vm0 ~]$ ssh centos-vm1
+Enter passphrase for key '/home/ivan/.ssh/mykey':
+Last login: Sun Apr  2 00:37:20 2023 from 192.168.8.10
+[ivan@centos-vm1 ~]$
+```
+
 7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
 **Решение:**
