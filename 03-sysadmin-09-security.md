@@ -155,6 +155,29 @@ tcpdump: listening on eth0, link-type EN10MB (Ethernet), snapshot length 262144 
 
 **Решение:**
 
+Устанавливаю сканер сети nmap:
+```bash
+[ivan@centos-vm0 ~]$ sudo yum install nmap
+```
+Запускаю проверку сайта:
+```bash
+[ivan@centos-vm0 ~]$ nmap scanme.nmap.org
+Starting Nmap 6.40 ( http://nmap.org ) at 2023-04-02 01:05 MSK
+Nmap scan report for scanme.nmap.org (45.33.32.156)
+Host is up (0.18s latency).
+Not shown: 996 closed ports
+PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+9929/tcp  open  nping-echo
+31337/tcp open  Elite
+
+Nmap done: 1 IP address (1 host up) scanned in 4.91 seconds
+```
+Запущены сервисы: ssh, http, nping-echo и Elite.
+
+
+
 9. Установите и настройте фаервол UFW на веб-сервер из задания 3. Откройте доступ снаружи только к портам 22, 80, 443.
 
 **Решение:**
