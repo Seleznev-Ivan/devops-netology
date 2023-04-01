@@ -46,6 +46,57 @@
  
 **Решение:**
 
+Генерирую ключи: 
+```bash
+[ivan@centos-vm0 ~]$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/ivan/.ssh/id_rsa):
+Created directory '/home/ivan/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/ivan/.ssh/id_rsa.
+Your public key has been saved in /home/ivan/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:Uk0jRcbd/4/7hOHnIcQAzcyLGyD7+MIKTUrFUGSiqt0 ivan@centos-vm0
+The key's randomart image is:
++---[RSA 2048]----+
+| oo+    .=@. .   |
+|. =  . . =o*. .  |
+|.  o  o o o..  . |
+|. .  . . o .o   .|
+|.. .  + S o  o. .|
+|o.+. . o .  .. o.|
+|.o..E .      .oo+|
+|  .  o .      o+o|
+|   .. .       .oo|
++----[SHA256]-----+
+```
+Копирую ключ на другой сервер:
+```bash
+[ivan@centos-vm0 ~]$ ssh-copy-id ivan@192.168.8.11
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/ivan/.ssh/id_rsa.pub"
+The authenticity of host '192.168.8.11 (192.168.8.11)' can't be established.
+ECDSA key fingerprint is SHA256:tkkgW09SP4ZJP96MPpSCfwHtZXG5g3ADsZMjfv+27s4.
+ECDSA key fingerprint is MD5:66:e4:42:36:68:7a:95:f7:fb:89:2f:7e:ab:50:23:f4.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+ivan@192.168.8.11's password:
+Number of key(s) added: 1
+Now try logging into the machine, with:   "ssh 'ivan@192.168.8.11'"
+and check to make sure that only the key(s) you wanted were added.
+```
+Подключаюсь к другому серверу:
+```bash
+[ivan@centos-vm0 ~]$ ssh ivan@192.168.8.11
+Enter passphrase for key '/home/ivan/.ssh/id_rsa':
+Last login: Sun Apr  2 00:28:33 2023 from gateway
+```
+Успешное подключение на другой сервер:
+```bash
+[ivan@centos-vm1 ~]$
+```
+
 6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH-клиента так, чтобы вход на удалённый сервер осуществлялся по имени сервера.
 
 **Решение:**
