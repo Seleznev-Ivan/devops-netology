@@ -42,7 +42,7 @@ show bgp x.x.x.x/32
 
 Подключаюсь к публичному маршрутизатору:
 ```bash
-[root@centos7test ~]# telnet route-views.routeviews.org
+ivan@ubuntutest:~$ telnet route-views.routeviews.org
 Trying 128.223.51.103...
 Connected to route-views.routeviews.org.
 Escape character is '^]'.
@@ -77,62 +77,44 @@ Username: rviews
 
 Проверяю маршрут к моему публичному IP:
 ```bash
-route-views>show ip route 31.41.246.2
-Routing entry for 31.41.246.0/24
+route-views>show ip route 46.242.13.237
+Routing entry for 46.242.12.0/22
   Known via "bgp 6447", distance 20, metric 0
-  Tag 3267, type external
-  Last update from 194.85.40.15 2d10h ago
+  Tag 2497, type external
+  Last update from 202.232.0.2 3w2d ago
   Routing Descriptor Blocks:
-  * 194.85.40.15, from 194.85.40.15, 2d10h ago
+  * 202.232.0.2, from 202.232.0.2, 3w2d ago
       Route metric is 0, traffic share count is 1
-      AS Hops 5
-      Route tag 3267
+      AS Hops 3
+      Route tag 2497
       MPLS label: none
 ```
 Проверяю bgp:
 ```bash
-route-views>show bgp 31.41.246.2
-BGP routing table entry for 31.41.246.0/24, version 2771189247
-Paths: (20 available, best #5, table default)
+route-views>show ip bgp 46.242.13.237
+BGP routing table entry for 46.242.12.0/22, version 2732151248
+Paths: (20 available, best #18, table default)
   Not advertised to any peer
   Refresh Epoch 1
-  20912 6939 35598 39153 39153 39153 39153 39153 39153 39153 39153 39153 39153 8905 42132 41162
-    212.66.96.126 from 212.66.96.126 (212.66.96.126)
-      Origin IGP, localpref 100, valid, external
-      Community: 20912:65016
-      path 7FE186E7CCD8 RPKI State not found
+  3267 12389 42610
+    194.85.40.15 from 194.85.40.15 (185.141.126.1)
+      Origin IGP, metric 0, localpref 100, valid, external
+      path 7FE12ADFE0A8 RPKI State not found
       rx pathid: 0, tx pathid: 0
   Refresh Epoch 1
-  8283 28917 28917 28917 8905 8905 42132 41162
-    94.142.247.3 from 94.142.247.3 (94.142.247.3)
-      Origin incomplete, metric 0, localpref 100, valid, external
-      Community: 0:6939 0:31500 8283:1 8283:101 8905:2001 28917:2000 28917:5112 28917:5202 28917:5302 28917:5350 31133:20002 31133:25002 31133:26142
-      unknown transitive attribute: flag 0xE0 type 0x20 length 0x24
-        value 0000 205B 0000 0000 0000 0001 0000 205B
-              0000 0005 0000 0001 0000 205B 0000 0008
-              0000 0DB8
-      path 7FE0F960FEE8 RPKI State not found
-      rx pathid: 0, tx pathid: 0
-  Refresh Epoch 1
-  3549 3356 12389 21418 41162 41162 41162 41162 41162 41162
+  3549 3356 12389 12389 12389 12389 12389 12389 42610
     208.51.134.254 from 208.51.134.254 (67.16.168.191)
       Origin IGP, metric 0, localpref 100, valid, external
       Community: 3356:2 3356:22 3356:100 3356:123 3356:501 3356:903 3356:2065 3549:2581 3549:30840
-      path 7FE0BC01C860 RPKI State not found
+      path 7FE02211BB78 RPKI State not found
       rx pathid: 0, tx pathid: 0
   Refresh Epoch 1
-  3356 12389 21418 41162 41162 41162 41162 41162 41162
-    4.68.4.46 from 4.68.4.46 (4.69.184.201)
-      Origin IGP, metric 0, localpref 100, valid, external
-      Community: 3356:2 3356:22 3356:100 3356:123 3356:501 3356:903 3356:2065
-      path 7FE0DF4E7E78 RPKI State not found
+  20912 3257 1299 42610
+    212.66.96.126 from 212.66.96.126 (212.66.96.126)
+      Origin IGP, localpref 100, valid, external
+      Community: 3257:8066 3257:30055 3257:50001 3257:53900 3257:53902 20912:65004
+      path 7FE0B5A1A9F0 RPKI State not found
       rx pathid: 0, tx pathid: 0
-  Refresh Epoch 1
-  3267 39153 8905 42132 41162
-    194.85.40.15 from 194.85.40.15 (185.141.126.1)
-      Origin incomplete, metric 0, localpref 100, valid, external, best
-      path 7FE00F217240 RPKI State not found
-      rx pathid: 0, tx pathid: 0x0
   Refresh Epoch 1
  --More--
 ```
@@ -262,112 +244,6 @@ udp порт 68 - это порт bootpc
 6. Установите Nginx, настройте в режиме балансировщика TCP или UDP.
 
 7. Установите bird2, настройте динамический протокол маршрутизации RIP.
-
-**Решение:**
-
-Устанавливаю bird2 на Ubuntu:
-```bash
-ivan@ubuntutest:~$ sudo apt install bird2
-[sudo] password for ivan:
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-The following additional packages will be installed:
-  libssh-gcrypt-4
-Suggested packages:
-  bird2-doc
-The following NEW packages will be installed:
-  bird2 libssh-gcrypt-4
-0 upgraded, 2 newly installed, 0 to remove and 49 not upgraded.
-Need to get 650 kB of archives.
-After this operation, 1741 kB of additional disk space will be used.
-Do you want to continue? [Y/n] y
-Get:1 http://ru.archive.ubuntu.com/ubuntu jammy/main amd64 libssh-gcrypt-4 amd64 0.9.6-2build1 [222 kB]
-Get:2 http://ru.archive.ubuntu.com/ubuntu jammy/universe amd64 bird2 amd64 2.0.8-2 [428 kB]
-Fetched 650 kB in 0s (3588 kB/s)
-debconf: delaying package configuration, since apt-utils is not installed
-Selecting previously unselected package libssh-gcrypt-4:amd64.
-(Reading database ... 64085 files and directories currently installed.)
-Preparing to unpack .../libssh-gcrypt-4_0.9.6-2build1_amd64.deb ...
-Unpacking libssh-gcrypt-4:amd64 (0.9.6-2build1) ...
-Selecting previously unselected package bird2.
-Preparing to unpack .../bird2_2.0.8-2_amd64.deb ...
-Unpacking bird2 (2.0.8-2) ...
-Setting up libssh-gcrypt-4:amd64 (0.9.6-2build1) ...
-Setting up bird2 (2.0.8-2) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 78.)
-debconf: falling back to frontend: Readline
-Creating config file /etc/bird/bird.conf with new version
-Created symlink /etc/systemd/system/multi-user.target.wants/bird.service → /lib/systemd/system/bird.service.
-Processing triggers for libc-bin (2.35-0ubuntu3.1) ...
-debconf: unable to initialize frontend: Dialog
-debconf: (No usable dialog-like program is installed, so the dialog based frontend cannot be used. at /usr/share/perl5/Debconf/FrontEnd/Dialog.pm line 78.)
-debconf: falling back to frontend: Readline
-Scanning processes...
-Scanning linux images...
-Running kernel seems to be up-to-date.
-No services need to be restarted.
-No containers need to be restarted.
-No user sessions are running outdated binaries.
-No VM guests are running outdated hypervisor (qemu) binaries on this host.
-```
-
-Включаю автозапуск:
-```bash
-ivan@ubuntutest:~$ sudo systemctl enable bird
-Synchronizing state of bird.service with SysV service script with /lib/systemd/systemd-sysv-install.
-Executing: /lib/systemd/systemd-sysv-install enable bird
-Created symlink /etc/systemd/system/multi-user.target.wants/bird.service → /lib/systemd/system/bird.service.
-```
-
-Редактирую конфигфайл:
-```bash
-ivan@ubuntutest:~$ sudo nano /etc/bird/bird.conf
-```
-
-Добавляю в конфиг настройку протокола rip:
-```bash
-#Protocol rip
-protocol rip {
-        ipv4 {
-                import all;
-                export all;
-        };
-        interface "eth1" {
-                update time 10;
-                timeout time 60;
-        };
-}
-```
-
-Перезапускаю bird:
-```bash
-ivan@ubuntutest:~$ sudo systemctl restart bird
-```
-
-Проверяю статус запуска:
-```bash
-ivan@ubuntutest:~$ sudo systemctl status bird
-● bird.service - BIRD Internet Routing Daemon
-     Loaded: loaded (/lib/systemd/system/bird.service; enabled; vendor preset: enabled)
-     Active: active (running) since Fri 2023-03-24 07:10:11 UTC; 2min 13s ago
-    Process: 2867 ExecStartPre=/usr/lib/bird/prepare-environment (code=exited, status=0/SUCCESS)
-    Process: 2873 ExecStartPre=/usr/sbin/bird -p (code=exited, status=0/SUCCESS)
-   Main PID: 2875 (bird)
-      Tasks: 1 (limit: 1249)
-     Memory: 796.0K
-        CPU: 9ms
-     CGroup: /system.slice/bird.service
-             └─2875 /usr/sbin/bird -f -u bird -g bird
-Mar 24 07:10:11 ubuntutest systemd[1]: Stopping BIRD Internet Routing Daemon...
-Mar 24 07:10:11 ubuntutest systemd[1]: bird.service: Deactivated successfully.
-Mar 24 07:10:11 ubuntutest systemd[1]: Stopped BIRD Internet Routing Daemon.
-Mar 24 07:10:11 ubuntutest bird[2875]: Chosen router ID 172.30.251.35 according to interface eth0
-Mar 24 07:10:11 ubuntutest systemd[1]: Starting BIRD Internet Routing Daemon...
-Mar 24 07:10:11 ubuntutest bird[2875]: Started
-Mar 24 07:10:11 ubuntutest systemd[1]: Started BIRD Internet Routing Daemon.
-```
 
 8. Установите Netbox, создайте несколько IP-префиксов, и, используя curl, проверьте работу API.
 
