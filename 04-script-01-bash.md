@@ -99,7 +99,17 @@ done
 ### Ваш скрипт:
 
 ```bash
-???
+# !/bin/bash
+declare -i proverka=1
+while (($proverka<=5))
+do
+    for host in 192.168.0.1 173.194.222.113 87.250.250.242; do 
+        nc -vz $host 80
+        echo $? $host `date` >> /var/log/proverka.log
+    done
+proverka+=1
+sleep 1
+done
 ```
 
 ---
