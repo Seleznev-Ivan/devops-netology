@@ -120,7 +120,22 @@ done
 ### Ваш скрипт:
 
 ```bash
-???
+# !/bin/bash
+declare -i proverka=1
+while (($proverka==1))
+do
+    for host in 192.168.0.1 173.194.222.113 87.250.250.242; do 
+        nc -vz $host 80
+        if (($?==0))
+        then 
+            echo $? $host `date` >> /var/log/proverka.log
+        else 
+            echo $host >> /var/log/error.log 
+            proverka=0 
+        fi
+    done
+sleep 1
+done
 ```
 
 ---
