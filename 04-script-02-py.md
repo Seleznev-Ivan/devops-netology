@@ -114,13 +114,50 @@ for result in result_os.split('\n'):
 ### Ваш скрипт:
 
 ```python
-???
+#!/usr/bin/env python3
+
+import socket
+from string import whitespace
+
+hosts = ["drive.google.com", "mail.google.com", "google.com"]
+fileList = []
+
+with open('/var/log/googlehosts.log') as file:
+    for f in file:
+        fileList.append(f)
+
+with open('/var/log/googlehosts.log', 'w+') as file:
+    for i in hosts:
+        result = socket.gethostbyname(i)
+        added = 0
+        for y in fileList:
+            inList = y.find(" {}".format(i))
+            if (inList != -1):
+                ipstr=y.replace('\n', '').split("  ")[1].translate({None: whitespace})
+                if (ipstr == result):
+                    print(" {}  {}\n".format(i, result))
+                    file.write(" {}  {}\n".format(i, result))
+                    added = 1
+                    break
+                else:
+                    print("[ERROR] {} IP mismatch: {}  {}\n".format(i, ipstr, result))
+                    file.write("[ERROR] {} IP mismatch: {}  {}\n".format(i, ipstr, result))
+                    added = 1
+                    break
+        if (added == 0):
+            print(" {}  {}\n".format(i, result))
+            file.write(" {}  {}\n".format(i, result))
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-???
+[root@centos7test ~]# python3 testgoogle.py
+ drive.google.com  64.233.161.194
+
+[ERROR] mail.google.com IP mismatch: 108.177.14.83  108.177.14.19
+
+[ERROR] google.com IP mismatch: 142.251.1.139  142.251.1.113
 ```
 
 ------
