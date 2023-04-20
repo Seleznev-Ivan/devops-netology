@@ -39,7 +39,7 @@ c = a + b
 | Вопрос  | Ответ |
 | ------------- | ------------- |
 | Какое значение будет присвоено переменной `c`?  | Появится ошибка TypeError: unsupported operand type(s) for +: 'int' and 'str' т.к. непонято как к числу прибавить строку |
-| Как получить для переменной `c` значение 12?  | c =(a + int(b))*4  |
+| Как получить для переменной `c` значение 12?  | c = str(a) + b  |
 | Как получить для переменной `c` значение 3?  | c = a + int(b)  |
 
 ------
@@ -68,13 +68,26 @@ for result in result_os.split('\n'):
 ### Ваш скрипт:
 
 ```python
-???
+#!/usr/bin/env python3
+import os
+
+gitdir = "~/netology/sysadm-homeworks/"
+bash_command = [f"cd {gitdir}", "git status"]
+is_change = False
+result_os = os.popen(' && '.join(bash_command)).read()
+for result in result_os.split('\n'):
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\tmodified:   ', gitdir)
+        print(prepare_result)
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-???
+[root@netology netology]# python3 2.py
+#~/netology/sysadm-homeworks/01-intro-01/netology.md
+#~/netology/sysadm-homeworks/03-sysadmin-07-net/Vagrantfile
+#~/netology/sysadm-homeworks/README.md
 ```
 
 ------
