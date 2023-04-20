@@ -83,7 +83,7 @@ for result in result_os.split('\n'):
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-[root@netology netology]# python3 34.py
+[root@netology netology]# python3 2.py
 /root/netology/#        modified:   01-intro-01/netology.md
 /root/netology/#        modified:   03-sysadmin-07-net/Vagrantfile
 /root/netology/#        modified:   README.md
