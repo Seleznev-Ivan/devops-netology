@@ -69,25 +69,24 @@ for result in result_os.split('\n'):
 
 ```python
 #!/usr/bin/env python3
+
 import os
 
-gitdir = "~/netology/sysadm-homeworks/"
-bash_command = [f"cd {gitdir}", "git status"]
-is_change = False
+bash_command = ["cd ~/netology/sysadm-homeworks", "git status"]
 result_os = os.popen(' && '.join(bash_command)).read()
 for result in result_os.split('\n'):
     if result.find('modified') != -1:
-        prepare_result = result.replace('\tmodified:   ', gitdir)
-        print(prepare_result)
+        prepare_result = result.replace('\modified: ', '')
+        print(os.getcwd() ,'/' , prepare_result, sep='')
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-[root@netology netology]# python3 2.py
-#~/netology/sysadm-homeworks/01-intro-01/netology.md
-#~/netology/sysadm-homeworks/03-sysadmin-07-net/Vagrantfile
-#~/netology/sysadm-homeworks/README.md
+[root@netology netology]# python3 34.py
+/root/netology/#        modified:   01-intro-01/netology.md
+/root/netology/#        modified:   03-sysadmin-07-net/Vagrantfile
+/root/netology/#        modified:   README.md
 ```
 
 ------
