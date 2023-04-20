@@ -99,13 +99,32 @@ for result in result_os.split('\n'):
 ### Ваш скрипт:
 
 ```python
-???
+#!/usr/bin/env python3
+
+import os
+import sys
+
+mypath = os.getcwd()
+if len(sys.argv)!= 1:
+ mypath = sys.argv[1]
+bash_command = [f'cd {mypath}', 'git status 2>&1']
+result_os = os.popen(' && '.join(bash_command)).read()
+for result in result_os.split('\n'):
+    if result.find('fatal') != -1:
+        print('GIT-репозиторий не найден')
+    if result.find('modified') != -1:
+        prepare_result = result.replace('\modified:  ', '')
+        print(os.getcwd() ,'/' , prepare_result, sep='')
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-???
+[root@netology sysadm-homeworks]# python3 3.py
+/root/netology/sysadm-homeworks/#       modified:   01-intro-01/netology.md
+/root/netology/sysadm-homeworks/#       modified:   03-sysadmin-07-net/Vagrantfile
+/root/netology/sysadm-homeworks/#       modified:   README.md
+
 ```
 
 ------
