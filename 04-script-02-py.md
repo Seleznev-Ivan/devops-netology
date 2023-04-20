@@ -130,47 +130,36 @@ for result in result_os.split('\n'):
 #!/usr/bin/env python3
 
 import socket
-from string import whitespace
+import time
 
-hosts = ["drive.google.com", "mail.google.com", "google.com"]
-fileList = []
-
-with open('/var/log/googlehosts.log') as file:
-    for f in file:
-        fileList.append(f)
-
-with open('/var/log/googlehosts.log', 'w+') as file:
-    for i in hosts:
-        result = socket.gethostbyname(i)
-        added = 0
-        for y in fileList:
-            inList = y.find(" {}".format(i))
-            if (inList != -1):
-                ipstr=y.replace('\n', '').split("  ")[1].translate({None: whitespace})
-                if (ipstr == result):
-                    print(" {}  {}\n".format(i, result))
-                    file.write(" {}  {}\n".format(i, result))
-                    added = 1
-                    break
-                else:
-                    print("[ERROR] {} IP mismatch: {}  {}\n".format(i, ipstr, result))
-                    file.write("[ERROR] {} IP mismatch: {}  {}\n".format(i, ipstr, result))
-                    added = 1
-                    break
-        if (added == 0):
-            print(" {}  {}\n".format(i, result))
-            file.write(" {}  {}\n".format(i, result))
+hosts = {"drive.google.com": "", "mail.google.com": "", "google.com": ""}
+while True:
+    for url, ip_a in hosts.items():
+        ip_addr = socket.gethostbyname(url)
+        if ip_a == "":
+            hosts[url] = ip_addr
+            print("{} - {}".format(url, ip_addr))
+        elif ip_a != ip_addr:
+            print("[ERROR] {} IP mismatch: {} {}".format(url, ip_a, ip_addr))
+            hosts[url] = ip_addr
+    time.sleep(1)
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-[root@centos7test ~]# python3 testgoogle.py
- drive.google.com  64.233.161.194
+[root@netology netology]]# python3 4.py
+drive.google.com - 74.125.205.194
+mail.google.com - 64.233.161.18
+google.com - 64.233.161.138
+[ERROR] mail.google.com IP mismatch: 64.233.161.18 64.233.165.17
+[ERROR] google.com IP mismatch: 64.233.161.138 173.194.222.138
+[ERROR] drive.google.com IP mismatch: 74.125.205.194 64.233.165.194
+[ERROR] mail.google.com IP mismatch: 64.233.165.17 64.233.164.19
+[ERROR] google.com IP mismatch: 173.194.222.138 64.233.161.102
+[ERROR] drive.google.com IP mismatch: 64.233.165.194 64.233.161.194
+[ERROR] mail.google.com IP mismatch: 64.233.164.19 64.233.165.83
 
-[ERROR] mail.google.com IP mismatch: 108.177.14.83  108.177.14.19
-
-[ERROR] google.com IP mismatch: 142.251.1.139  142.251.1.113
 ```
 
 ------
