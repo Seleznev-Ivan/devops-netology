@@ -77,25 +77,93 @@
 ### Ваш скрипт:
 
 ```python
-???
+#! /usr/bin/env python3
+
+import socket
+import os
+import ast
+import json
+import yaml
+
+services = ["drive.google.com", "mail.google.com", "google.com"]
+
+logs = ['hosts.json', 'hosts.yml']
+for file in logs:
+    input_file = open(file, 'a+')
+    input_file.close()
+    input_file = open(file, 'r')
+    if file == 'hosts.json':
+        json_text = input_file.read()
+        if len(json_text) != 0:
+            log_from_json = json.loads(json_text)
+            print(f'Найден логфайл JSON')
+            input_file.close()
+        else:
+            log_from_json = {}
+            n = 0
+            while n <= (len(services) - 1):
+                log_from_json[services[n]] = socket.gethostbyname(services[n])
+                log_from_json[services[n]] = "0.0.0.0"
+                n += 1
+            print(f'Логфайл JSON пуст. Файл будет создан')
+    elif file == 'hosts.yml':
+        yaml_text = input_file.read()
+        if len(yaml_text) != 0:
+            log_from_yaml = yaml.safe_load(yaml_text)
+            print(f'Найден логфайл YAML')
+            input_file.close()
+        else:
+            log_from_yaml = {}
+            n = 0
+            while n <= (len(services) - 1):
+                log_from_yaml[services[n]] = socket.gethostbyname(services[n])
+                log_from_yaml[services[n]] = "0.0.0.0"
+                n += 1
+            print(f'Логфайл YAML пуст. Файл будет создан')
+n = 0
+new_log = {}
+while n <= (len(services) - 1):
+    new_log[services[n]] = socket.gethostbyname(services[n])
+    if new_log[services[n]] == log_from_json[services[n]]:
+        print(
+            f'Всё хорошо. Сервис {services[n]}: прошлый ip-адрес {log_from_json$
+    else:
+        print(f'Предупреждение!!! Сервис {services[n]} сменил ip-адрес с {log_f$
+    n += 1
+
+with open('hosts.json', 'w') as hosts_json:
+    json.dump(new_log, hosts_json, indent=2)
+
+with open('hosts.yml', 'w') as hosts_yaml:
+    yaml.dump(new_log, hosts_yaml, sort_keys=False, indent=2)
 ```
 
 ### Вывод скрипта при запуске во время тестирования:
 
 ```
-???
+Найден логфайл JSON
+Найден логфайл YAML
+Всё хорошо. Сервис drive.google.com: прошлый ip-адрес 74.125.205.194, новый ip-адрес 74.125.205.194.
+Предупреждение!!! Сервис mail.google.com сменил ip-адрес с 64.233.164.17 на 64.233.164.83!
+Предупреждение!!! Сервис google.com сменил ip-адрес с 64.233.165.101 на 64.233.165.139!
 ```
 
 ### JSON-файл(ы), который(е) записал ваш скрипт:
 
 ```json
-???
+{
+  "drive.google.com": "74.125.205.194",
+  "mail.google.com": "64.233.164.83",
+  "google.com": "64.233.165.139"
+}
 ```
 
 ### YAML-файл(ы), который(е) записал ваш скрипт:
 
 ```yaml
-???
+drive.google.com: 74.125.205.194
+mail.google.com: 64.233.164.83
+google.com: 64.233.165.139
 ```
 
 ---
