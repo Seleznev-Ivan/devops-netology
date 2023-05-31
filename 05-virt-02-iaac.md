@@ -73,9 +73,39 @@ IaaC чрезвычайно эффективный способ отслежив
 - [Terraform](https://github.com/netology-code/devops-materials/blob/master/README.md),
 - Ansible.
 
-*Приложите вывод команд установленных версий каждой из программ, оформленный в Markdown.*
+VirtualBox:
+```bash
+users-MacBook-Pro:~ user$ virtualbox --help
+Oracle VM VirtualBox VM Selector v7.0.6
+Copyright (C) 2005-2023 Oracle and/or its affiliates
+```
+Vagrant:
+```bash
+users-MacBook-Pro:~ user$ vagrant -v
+Vagrant 2.3.6
+```
+Terraform:
+```bash
+users-MacBook-Pro:~ user$ terraform -v
+Terraform v1.4.6
+on darwin_amd64
+```
+Ansible:
+```bash
+users-MacBook-Pro:~ user$ ansible --version
+ansible [core 2.15.0]
+  config file = None
+  configured module search path = ['/Users/user/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python3.11/site-packages/ansible
+  ansible collection location = /Users/user/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/local/bin/ansible
+  python version = 3.11.3 (main, May 24 2023, 13:34:40) [Clang 12.0.0 (clang-1200.0.32.29)] (/usr/local/opt/python@3.11/bin/python3.11)
+  jinja version = 3.1.2
+  libyaml = True
+  ```
 
-**Решение:**
+
+*Приложите вывод команд установленных версий каждой из программ, оформленный в Markdown.*
 
 ## Задача 4 
 
