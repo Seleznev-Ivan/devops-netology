@@ -44,7 +44,7 @@
 **Решение:**
 
 2.1
-![YandexCloud](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/05-virt-04-docker-compose-2.jpg)
+![YandexCloud](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/05-virt-04-docker-compose-21.jpg)
 2.2
 ![Terraform](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/05-virt-04-docker-compose-2-2.jpg)
 
