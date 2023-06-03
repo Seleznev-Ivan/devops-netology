@@ -68,8 +68,12 @@
 
 - скриншот работающего веб-интерфейса Grafana с текущими метриками, как на примере ниже.
 <p align="center">
-  <img width="1200" height="600" src="./assets/yc_02.png">
+  <img width="1200" height="600" src="https://github.com/netology-code/virtd-homeworks/blob/main/05-virt-04-docker-compose/assets/yc_02.png">
 </p>
+
+**Решение:**
+
+![Grafana](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/05-virt-04-docker-compose-4.jpg)
 
 ## Задача 5 (*)
 
