@@ -131,3 +131,28 @@ Error: The requested URL returned error: 404:
 
 
 **Решение:**
+```bash
+users-MacBook-Pro:~ user$ cd /Users/user/Documents/iaac/vagrant
+users-MacBook-Pro:vagrant user$ vagrant ssh
+Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-135-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Sat 03 Jun 2023 09:01:34 AM UTC
+
+  System load:  0.0                Users logged in:          0
+  Usage of /:   13.4% of 30.34GB   IPv4 address for docker0: 172.17.0.1
+  Memory usage: 23%                IPv4 address for eth0:    10.0.2.15
+  Swap usage:   0%                 IPv4 address for eth1:    192.168.56.11
+  Processes:    107
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+Last login: Sat Jun  3 08:54:27 2023 from 10.0.2.2
+vagrant@server1:~$ sudo docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+vagrant@server1:~$
+```
