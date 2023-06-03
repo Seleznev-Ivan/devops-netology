@@ -95,6 +95,61 @@ Hey, Netology
 - Добавьте ещё один файл в папку ```/data``` на хостовой машине.
 - Подключитесь во второй контейнер и отобразите листинг и содержание файлов в ```/data``` контейнера.
 
+## Решение
+
+1.
+```bash
+ivan@ubuntupc:~$ sudo docker run -it --rm -d --name centos -v $(pwd)/data:/data centos:latest
+Unable to find image 'centos:latest' locally
+latest: Pulling from library/centos
+a1d0c7532777: Pull complete
+Digest: sha256:a27fd8080b517143cbbbab9dfb7c8571c40d67d534bbdee55bd6c473f432b177
+Status: Downloaded newer image for centos:latest
+2429492fe8b5f6a8b5c31d657f2c0d64b863f9443eaea2b319ced76f1a7bb52b
+```
+
+2.
+```bash
+ivan@ubuntupc:~$ sudo docker run -it --rm -d --name debian -v $(pwd)/data:/data debian:latest
+Unable to find image 'debian:latest' locally
+latest: Pulling from library/debian
+bd73737482dd: Pull complete
+Digest: sha256:432f545c6ba13b79e2681f4cc4858788b0ab099fc1cca799cc0fae4687c69070
+Status: Downloaded newer image for debian:latest
+95f16147255d38de3401cee2b722582483aa35bad11b06b5bda3771398d329d4
+
+ivan@ubuntupc:~$ sudo docker ps
+CONTAINER ID   IMAGE           COMMAND       CREATED              STATUS              PORTS     NAMES
+95f16147255d   debian:latest   "bash"        7 seconds ago        Up 6 seconds                  debian
+2429492fe8b5   centos:latest   "/bin/bash"   About a minute ago   Up About a minute             centos
+```
+
+3.
+```bash
+ivan@ubuntupc:~$ sudo docker exec -it centos bash
+[root@2429492fe8b5 /]# ls
+bin   dev  home  lib64       media  opt   root  sbin  sys  usr
+data  etc  lib   lost+found  mnt    proc  run   srv   tmp  var
+[root@2429492fe8b5 /]# vi /data/test.txt
+[root@2429492fe8b5 /]# exit
+```
+
+4.
+```bash
+ivan@ubuntupc:~$ sudo vi /home/ivan/data/test2.txt
+```
+
+5.
+```bash
+ivan@ubuntupc:~$ sudo docker exec -it debian bash
+root@95f16147255d:/# ls -lah /data
+total 16K
+drwxr-xr-x 2 root root 4.0K Jun  3 14:44 .
+drwxr-xr-x 1 root root 4.0K Jun  3 14:29 ..
+-rw-r--r-- 1 root root    9 Jun  3 14:38 test.txt
+-rw-r--r-- 1 root root    8 Jun  3 14:44 test2.txt
+```
+
 ## Задача 4 (*)
 
 Воспроизведите практическую часть лекции самостоятельно.
