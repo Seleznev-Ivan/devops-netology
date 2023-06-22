@@ -174,6 +174,7 @@ SELECT grantee, table_name, privilege_type FROM information_schema.table_privile
     - результаты их выполнения.
     
 ## Решение
+Заполняю таблицу orders:
 ```sql
 INSERT INTO orders VALUES (1, 'Шоколад', 10), (2, 'Принтер', 3000), (3, 'Книга', 500), (4, 'Монитор', 7000), (5, 'Гитара', 4000);
 ```
@@ -193,8 +194,9 @@ id |                    наименование                    | цена
   5 | Гитара                                             | 4000
 (5 rows)
 ```
+Вычисляю количество записей в таблице orders:
 ```sql
-SELECT count(1) FROM orders;
+SELECT count(*) FROM orders;
 ```
 ```bash
  count
@@ -202,6 +204,7 @@ SELECT count(1) FROM orders;
      5
 (1 row)
 ```
+Заполняю таблицу clients:
 ```sql
 INSERT INTO clients VALUES (1, 'Иванов Иван Иванович', 'USA'), (2, 'Петров Петр Петрович', 'Canada'), (3, 'Иоганн Себастьян Бах', 'Japan'), (4, 'Ронни Джеймс Дио', 'Russia'), (5, 'Ritchie Blackmore', 'Russia');
 ```
@@ -221,8 +224,9 @@ SELECT * FROM clients;
   5 | Ritchie Blackmore    | Russia            |      
 (5 rows)
 ```
+Вычисляю количество записей в таблице clients:
 ```sql
-SELECT count(1) FROM clients;
+SELECT count(*) FROM clients;
 ```
 ```bash
  count 
