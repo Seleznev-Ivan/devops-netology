@@ -172,6 +172,64 @@ SELECT grantee, table_name, privilege_type FROM information_schema.table_privile
 
     - запросы,
     - результаты их выполнения.
+    
+## Решение
+```sql
+INSERT INTO orders VALUES (1, 'Шоколад', 10), (2, 'Принтер', 3000), (3, 'Книга', 500), (4, 'Монитор', 7000), (5, 'Гитара', 4000);
+```
+```bash
+INSERT 0 5
+```
+```sql
+SELECT * FROM orders;
+```
+```bash
+id |                    наименование                    | цена
+----+----------------------------------------------------+------
+  1 | Шоколад                                            |   10
+  2 | Принтер                                            | 3000
+  3 | Книга                                              |  500
+  4 | Монитор                                            | 7000
+  5 | Гитара                                             | 4000
+(5 rows)
+```
+```sql
+SELECT count(1) FROM orders;
+```
+```bash
+ count
+-------
+     5
+(1 row)
+```
+```sql
+INSERT INTO clients VALUES (1, 'Иванов Иван Иванович', 'USA'), (2, 'Петров Петр Петрович', 'Canada'), (3, 'Иоганн Себастьян Бах', 'Japan'), (4, 'Ронни Джеймс Дио', 'Russia'), (5, 'Ritchie Blackmore', 'Russia');
+```
+```bash
+INSERT 0 5
+```
+```sql
+SELECT * FROM clients;
+```
+```bash
+ id |       фамилия        | страна проживания | заказ 
+----+----------------------+-------------------+-------
+  1 | Иванов Иван Иванович | USA               |      
+  2 | Петров Петр Петрович | Canada            |      
+  3 | Иоганн Себастьян Бах | Japan             |      
+  4 | Ронни Джеймс Дио     | Russia            |      
+  5 | Ritchie Blackmore    | Russia            |      
+(5 rows)
+```
+```sql
+SELECT count(1) FROM clients;
+```
+```bash
+ count 
+-------
+     5
+(1 row)
+```
 
 ## Задача 4
 
