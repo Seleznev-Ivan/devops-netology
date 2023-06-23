@@ -285,12 +285,16 @@ UPDATE 1
 
 ## Решение
  ```sql
- EXPLAIN SELECT* FROM clients WHERE заказ IS NOT NULL;
-                         QUERY PLAN
-------------------------------------------------------------
- Seq Scan on clients  (cost=0.00..11.80 rows=179 width=416)
+  EXPLAIN ANALYZE SELECT* FROM clients WHERE заказ IS NOT NULL;
+                                              QUERY PLAN
+------------------------------------------------------------------------------------------------------
+ Seq Scan on clients  (cost=0.00..11.80 rows=179 width=416) (actual time=0.009..0.009 rows=3 loops=1)
    Filter: ("заказ" IS NOT NULL)
-(2 rows)
+   Rows Removed by Filter: 2
+ Planning Time: 0.037 ms
+ Execution Time: 0.021 ms
+(5 rows)
+
  ```
 
 ## Задача 6
