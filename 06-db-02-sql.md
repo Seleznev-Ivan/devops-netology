@@ -66,7 +66,7 @@ volumes:
 
 Итоговый список БД:
 ```bash
-test_db=# \l+
+test_db=> \l+
                                                                     List of databases
    Name    | Owner | Encoding |  Collate   |   Ctype    |      Access privileges      |  Size   | Tablespace |                Description
 -----------+-------+----------+------------+------------+-----------------------------+---------+------------+--------------------------------------------
@@ -325,6 +325,16 @@ Filter показывает условие, указанное в запросе
 Приведите список операций, который вы применяли для бэкапа данных и восстановления. 
 
 ---
+
+## Решение
+```bash
+root@65f399002104:/# pg_dump -U test-admin-user test_db > /backup/postgres/test_db.dump
+root@65f399002104:/# ls -lh /backup/postgres
+total 8.0K
+-rw-r--r--. 1 root root 5.3K Jun 23 09:10 test_db.dump
+```
+
+
 
 ### Как cдавать задание
 
