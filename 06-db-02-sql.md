@@ -67,17 +67,20 @@ volumes:
 Итоговый список БД:
 ```bash
 test_db=# \l+
-                                                               List of databases
-   Name    | Owner | Encoding |  Collate   |   Ctype    | Access privileges |  Size   | Tablespace |                Description
------------+-------+----------+------------+------------+-------------------+---------+------------+--------------------------------------------
- pgdb01    | pgusr | UTF8     | en_US.utf8 | en_US.utf8 |                   | 7977 kB | pg_default |
- postgres  | pgusr | UTF8     | en_US.utf8 | en_US.utf8 |                   | 7977 kB | pg_default | default administrative connection database
- template0 | pgusr | UTF8     | en_US.utf8 | en_US.utf8 | =c/pgusr         +| 7833 kB | pg_default | unmodifiable empty database
-           |       |          |            |            | pgusr=CTc/pgusr   |         |            |
- template1 | pgusr | UTF8     | en_US.utf8 | en_US.utf8 | =c/pgusr         +| 7833 kB | pg_default | default template for new databases
-           |       |          |            |            | pgusr=CTc/pgusr   |         |            |
- test_db   | pgusr | UTF8     | en_US.utf8 | en_US.utf8 |                   | 8105 kB | pg_default |
+                                                                    List of databases
+   Name    | Owner | Encoding |  Collate   |   Ctype    |      Access privileges      |  Size   | Tablespace |                Description
+-----------+-------+----------+------------+------------+-----------------------------+---------+------------+--------------------------------------------
+ pgdb01    | pgusr | UTF8     | en_US.utf8 | en_US.utf8 |                             | 7977 kB | pg_default |
+ postgres  | pgusr | UTF8     | en_US.utf8 | en_US.utf8 |                             | 7977 kB | pg_default | default administrative connection database
+ template0 | pgusr | UTF8     | en_US.utf8 | en_US.utf8 | =c/pgusr                   +| 7833 kB | pg_default | unmodifiable empty database
+           |       |          |            |            | pgusr=CTc/pgusr             |         |            |
+ template1 | pgusr | UTF8     | en_US.utf8 | en_US.utf8 | =c/pgusr                   +| 7833 kB | pg_default | default template for new databases
+           |       |          |            |            | pgusr=CTc/pgusr             |         |            |
+ test_db   | pgusr | UTF8     | en_US.utf8 | en_US.utf8 | =Tc/pgusr                  +| 8145 kB | pg_default |
+           |       |          |            |            | pgusr=CTc/pgusr            +|         |            |
+           |       |          |            |            | "test-admin-user"=CTc/pgusr |         |            |
 (5 rows)
+
 ```
 Описание таблиц (describe):
 ```bash
