@@ -351,7 +351,99 @@ CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS    
 65240c98cc2b   postgres:12   "docker-entrypoint.s…"   5 seconds ago   Up 5 seconds                5432/tcp   psql2new
 65f399002104   postgres:12   "docker-entrypoint.s…"   23 hours ago    Exited (0) 10 minutes ago              pg12
 ```
+Копирую дамп бэкапа из контейнера pg12 на сервер:
+```bash
+[root@netology postgres12]# docker cp pg12:/backup/postgres/test_db.dump /root/postgres12/backup/
+Successfully copied 7.17kB to /root/postgres12/backup/
+```
+Копирую дамп бэкапа с сервера в контейнер psql2new:
+```bash
+[root@netology postgres12]# docker cp /root/postgres12/backup/test_db.dump psql2new:/tmp/
+Successfully copied 7.17kB to psql2new:/tmp/
+```
+Запускаю новый контейнер psql2new:
+```bash
+[root@netology postgres12]# docker exec -it psql2new bash
+```
+Просматриваю, есть ли скопированный дамп:
+```bash
+root@65240c98cc2b:/# ls -lh /tmp
+total 8.0K
+-rw-r--r--. 1 root root 5.3K Jun 23 09:10 test_db.dump
+```
+Дамп есть, теперь восстанавливаю его:
+```bash
+root@65240c98cc2b:/# psql -U test-admin-user  test_db < /tmp/test_db.dump
+SET
+SET
+SET
+SET
+SET
+ set_config
+------------
 
+(1 row)
+
+SET
+SET
+SET
+SET
+SET
+SET
+CREATE TABLE
+ERROR:  role "pgusr" does not exist
+CREATE SEQUENCE
+ERROR:  role "pgusr" does not exist
+ALTER SEQUENCE
+CREATE TABLE
+ERROR:  role "pgusr" does not exist
+CREATE SEQUENCE
+ERROR:  role "pgusr" does not exist
+ALTER SEQUENCE
+ALTER TABLE
+ALTER TABLE
+COPY 5
+COPY 5
+ setval
+--------
+      1
+(1 row)
+
+ setval
+--------
+      1
+(1 row)
+
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+ALTER TABLE
+GRANT
+ERROR:  role "test-simple-user" does not exist
+GRANT
+GRANT
+ERROR:  role "test-simple-user" does not exist
+GRANT
+```
+Проверяю восстановилась ли база, для этого подключаюсь к базе данных:
+```bash
+root@65240c98cc2b:/# psql -h localhost -U test-admin-user test_db
+psql (12.15 (Debian 12.15-1.pgdg120+1))
+Type "help" for help.
+
+test_db=# \l+
+                                                                               List of databases
+   Name    |      Owner      | Encoding |  Collate   |   Ctype    |            Access privileges            |  Size   | Tablespace |                Description
+-----------+-----------------+----------+------------+------------+-----------------------------------------+---------+------------+--------------------------------------------
+ postgres  | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 |                                         | 7977 kB | pg_default | default administrative connection database
+ template0 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7833 kB | pg_default | unmodifiable empty database
+           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            |
+ template1 | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 | =c/"test-admin-user"                   +| 7833 kB | pg_default | default template for new databases
+           |                 |          |            |            | "test-admin-user"=CTc/"test-admin-user" |         |            |
+ test_db   | test-admin-user | UTF8     | en_US.utf8 | en_US.utf8 |                                         | 8145 kB | pg_default |
+(4 rows)
+```
+База восстановлена!
 
 ### Как cдавать задание
 
