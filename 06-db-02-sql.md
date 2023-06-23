@@ -327,13 +327,30 @@ Filter показывает условие, указанное в запросе
 ---
 
 ## Решение
+Создаю бэкап базы test_db:
 ```bash
 root@65f399002104:/# pg_dump -U test-admin-user test_db > /backup/postgres/test_db.dump
 root@65f399002104:/# ls -lh /backup/postgres
 total 8.0K
 -rw-r--r--. 1 root root 5.3K Jun 23 09:10 test_db.dump
 ```
-
+Останавливаю контейнер:
+```bash
+[root@netology postgres12]# docker stop pg12
+pg12
+[root@netology postgres12]# docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED        STATUS                     PORTS     NAMES
+65f399002104   postgres:12   "docker-entrypoint.s…"   23 hours ago   Exited (0) 2 minutes ago             pg12
+```
+Поднимаю новый пустой контейнер с PostgreSQL:
+```bash
+[root@netology postgres12]# docker run --name psql2new -e POSTGRES_USER=test-admin-user -e POSTGRES_PASSWORD=MyPa$$2023 -e POSTGRES_DB=test_db -d postgres:12
+65240c98cc2b300c1b6999cfbdd2e4dcfb4470432dc55c52feb49d1f23d16db3
+[root@netology postgres12]# docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED         STATUS                      PORTS      NAMES
+65240c98cc2b   postgres:12   "docker-entrypoint.s…"   5 seconds ago   Up 5 seconds                5432/tcp   psql2new
+65f399002104   postgres:12   "docker-entrypoint.s…"   23 hours ago    Exited (0) 10 minutes ago              pg12
+```
 
 
 ### Как cдавать задание
