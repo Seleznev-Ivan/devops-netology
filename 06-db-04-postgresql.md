@@ -140,6 +140,14 @@ COMMIT;
 
 
 ## Решение
+Бэкап базы:
+```bash
+root@a6ea0634cc8d:/# mkdir /backup/
+root@a6ea0634cc8d:/# pg_dump -U pgadm test_database > /backup/test_database.dump
+root@a6ea0634cc8d:/# ls -lh /backup
+total 4.0K
+-rw-r--r--. 1 root root 3.4K Jun 26 07:30 test_database.dump
+```
 
 ---
 
