@@ -98,7 +98,15 @@ pgdb13=# \q
 **Приведите в ответе** команду, которую вы использовали для вычисления, и полученный результат.
 
 ## Решение
-
+```sql
+SELECT attname, avg_width FROM pg_stats WHERE tablename='orders';
+ attname | avg_width
+---------+-----------
+ id      |         4
+ title   |        16
+ price   |         4
+(3 rows)
+```
 
 
 ## Задача 3
