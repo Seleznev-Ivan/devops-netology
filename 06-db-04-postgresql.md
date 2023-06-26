@@ -148,6 +148,10 @@ root@a6ea0634cc8d:/# ls -lh /backup
 total 4.0K
 -rw-r--r--. 1 root root 3.4K Jun 26 07:30 test_database.dump
 ```
+Можно добавить индекс:
+```sql
+CREATE INDEX title_uni ON orders(title);
+```
 
 ---
 
