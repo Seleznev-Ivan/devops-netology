@@ -120,7 +120,16 @@ SELECT attname, avg_width FROM pg_stats WHERE tablename='orders';
 Можно ли было изначально исключить ручное разбиение при проектировании таблицы orders?
 
 ## Решение
-
+SQL-транзакция:
+```sql
+BEGIN;
+CREATE TABLE orders_1 (CHECK (price > 499)) INHERITS (orders);
+INSERT INTO orders_1 SELECT * FROM orders WHERE price > 499;
+CREATE TABLE orders_2 (CHECK (price <= 499)) INHERITS (orders);
+INSERT INTO orders_2 SELECT * FROM orders WHERE price <= 499;
+DELETE FROM ONLY orders;
+COMMIT;
+```
 Да, можно было бы избежать, если бы изначально спроектировать таблицу как секционарованную, т.е разбив одну большую таблицу на несколько меньших физических.
 
 ## Задача 4
