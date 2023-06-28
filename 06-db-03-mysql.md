@@ -105,6 +105,35 @@ SELECT * from INFORMATION_SCHEMA.USER_ATTRIBUTES where USER = 'test';
   
 ## Решение
 
+Используется Engine InnoDB:
+```sql
+SELECT table_schema,table_name,engine FROM information_schema.tables WHERE table_schema = DATABASE();
++--------------+------------+--------+
+| TABLE_SCHEMA | TABLE_NAME | ENGINE |
++--------------+------------+--------+
+| mysqldb01    | orders     | InnoDB |
++--------------+------------+--------+
+1 row in set (0.00 sec)
+```
+Время выполнения и запрос на изменения из профайлера:
+```sql
+ SHOW PROFILES;
++----------+------------+------------------------------------------------------------------------------------------------------+
+| Query_ID | Duration   | Query                                                                                                |
++----------+------------+------------------------------------------------------------------------------------------------------+
+|        1 | 0.00112025 | SELECT table_schema,table_name,engine FROM information_schema.tables WHERE table_schema = DATABASE() |
+|        2 | 0.00079975 | SHOW DATABASES                                                                                       |
+|        3 | 0.00015500 | SELECT DATABASE()                                                                                    |
+|        4 | 0.00058725 | show databases                                                                                       |
+|        5 | 0.00078150 | show tables                                                                                          |
+|        6 | 0.00010825 | SET profiling = 1                                                                                    |
+|        7 | 0.00085100 | SELECT table_schema,table_name,engine FROM information_schema.tables WHERE table_schema = DATABASE() |
+|        8 | 0.11075600 | ALTER TABLE orders ENGINE = MyISAM                                                                   |
+|        9 | 0.12869400 | ALTER TABLE orders ENGINE = InnoDB                                                                   |
++----------+------------+------------------------------------------------------------------------------------------------------+
+9 rows in set, 1 warning (0.00 sec)
+```
+
 ## Задача 4 
 
 Изучите файл `my.cnf` в директории /etc/mysql.
@@ -120,8 +149,52 @@ SELECT * from INFORMATION_SCHEMA.USER_ATTRIBUTES where USER = 'test';
 Приведите в ответе изменённый файл `my.cnf`.
 
 ## Решение
+```bash
+# For advice on how to change settings please see
+# http://dev.mysql.com/doc/refman/8.0/en/server-configuration-defaults.html
+
+[mysqld]
+#
+# Remove leading # and set to the amount of RAM for the most important data
+# cache in MySQL. Start at 70% of total RAM for dedicated server, else 10%.
+# innodb_buffer_pool_size = 128M
+#
+# Remove leading # to turn on a very important data integrity option: logging
+# changes to the binary log between backups.
+# log_bin
+#
+# Remove leading # to set options mainly useful for reporting servers.
+# The server defaults are faster for transactions and fast SELECTs.
+# Adjust sizes as needed, experiment to find the optimal values.
+# join_buffer_size = 128M
+# sort_buffer_size = 2M
+# read_rnd_buffer_size = 2M
+
+# Remove leading # to revert to previous value for default_authentication_plugin,
+# this will increase compatibility with older clients. For background, see:
+# https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_default_authentication_plugin
+# default-authentication-plugin=mysql_native_password
+skip-host-cache
+skip-name-resolve
+datadir=/var/lib/mysql
+socket=/var/run/mysqld/mysqld.sock
+secure-file-priv=/var/lib/mysql-files
+user=mysql
+
+pid-file=/var/run/mysqld/mysqld.pid
+
+innodb_flush_log_at_trx_commit = 0 #Скорость IO важнее сохранности данных
+innodb_file_per_table = ON #Компрессия таблиц для экономии места на диске
+innodb_log_buffer_size = 1M #Размер буффера с незакомиченными транзакциями 1 Мб
+innodb_buffer_pool_size = 1G #Буффер кеширования 30% от ОЗУ (Всего 3.7G)
+innodb_log_file_size = 100M #Размер файла логов операций 100 Мб
 
 
+[client]
+socket=/var/run/mysqld/mysqld.sock
+
+!includedir /etc/mysql/conf.d/
+```
 
 ---
 
