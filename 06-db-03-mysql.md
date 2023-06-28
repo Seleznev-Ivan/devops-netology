@@ -26,6 +26,43 @@
 
 ## Решение
 
+Версия сервера БД:
+```bash
+mysql> \s
+--------------
+mysql  Ver 8.0.33 for Linux on x86_64 (MySQL Community Server - GPL)
+
+Connection id:          13
+Current database:       mysqldb01
+Current user:           mysqladm@localhost
+SSL:                    Not in use
+Current pager:          stdout
+Using outfile:          ''
+Using delimiter:        ;
+Server version:         8.0.33 MySQL Community Server - GPL
+Protocol version:       10
+Connection:             Localhost via UNIX socket
+Server characterset:    utf8mb4
+Db     characterset:    utf8mb4
+Client characterset:    latin1
+Conn.  characterset:    latin1
+UNIX socket:            /var/run/mysqld/mysqld.sock
+Binary data as:         Hexadecimal
+Uptime:                 18 min 5 sec
+
+Threads: 2  Questions: 55  Slow queries: 0  Opens: 178  Flush tables: 3  Open tables: 96  Queries per second avg: 0.050
+--------------
+```
+Количество записей с price > 300:
+```sql
+SELECT COUNT(*) FROM orders WHERE price > 300;
++----------+
+| COUNT(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+```
 ## Задача 2
 
 Создайте пользователя test в БД c паролем test-pass, используя:
@@ -45,6 +82,16 @@
 
 ## Решение
 
+```sql
+SELECT * from INFORMATION_SCHEMA.USER_ATTRIBUTES where USER = 'test';
++------+-----------+---------------------------------------+
+| USER | HOST      | ATTRIBUTE                             |
++------+-----------+---------------------------------------+
+| test | localhost | {"fname": "James", "lname": "Pretty"} |
++------+-----------+---------------------------------------+
+1 row in set (0.00 sec)
+```
+
 ## Задача 3
 
 Установите профилирование `SET profiling = 1`.
@@ -55,7 +102,7 @@
 Измените `engine` и **приведите время выполнения и запрос на изменения из профайлера в ответе**:
 - на `MyISAM`,
 - на `InnoDB`.
-- 
+  
 ## Решение
 
 ## Задача 4 
