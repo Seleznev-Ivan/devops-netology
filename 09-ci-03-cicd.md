@@ -48,7 +48,7 @@
 ### Решение
 ![Nexus](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-cicd-2-Nexus.jpg)
 
-Ссылка на файл `maven-metadata.xml`
+Ссылка на [файл `maven-metadata.xml`](https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/maven-metadata.xml)
 
 ### Знакомство с Maven
 
@@ -68,7 +68,7 @@
 4. В ответе пришлите исправленный файл `pom.xml`.
 
 ### Решение
-Ссылка на файл `pom.xml`
+Ссылка на [файл `pom.xml`](https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/pom.xml)
 
 ---
 
