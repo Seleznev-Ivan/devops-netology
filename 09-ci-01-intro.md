@@ -57,9 +57,9 @@
    
 6. Если всё отработалось в рамках ожидания — выгрузите схемы workflow для импорта в XML. Файлы с workflow и скриншоты workflow приложите к решению задания.
 
-(bug_workflow)[https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_bug_workflow_netology.xml]
+[bug_workflow](https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_bug_workflow_netology.xml)
 
-(other_workflow)[https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_other_workflow_netology.xml]
+[other_workflow](https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_other_workflow_netology.xml)
 
 ---
 
