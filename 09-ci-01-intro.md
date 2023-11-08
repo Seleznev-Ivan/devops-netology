@@ -19,6 +19,8 @@
 6. On test -> On fix, Done.
 7. Done -> Closed, Open.
 
+![bug_workflow](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-bug_workflow.jpg)
+
 Остальные задачи должны проходить по упрощённому workflow:
 
 1. Open -> On develop.
@@ -27,14 +29,37 @@
 4. On test -> On develop, Done.
 5. Done -> Closed, Open.
 
+![other_workflow](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-other_workflow.jpg)
+
 **Что нужно сделать**
 
-1. Создайте задачу с типом bug, попытайтесь провести его по всему workflow до Done. 
-1. Создайте задачу с типом epic, к ней привяжите несколько задач с типом task, проведите их по всему workflow до Done. 
-1. При проведении обеих задач по статусам используйте kanban. 
-1. Верните задачи в статус Open.
-1. Перейдите в Scrum, запланируйте новый спринт, состоящий из задач эпика и одного бага, стартуйте спринт, проведите задачи до состояния Closed. Закройте спринт.
-2. Если всё отработалось в рамках ожидания — выгрузите схемы workflow для импорта в XML. Файлы с workflow и скриншоты workflow приложите к решению задания.
+1. Создайте задачу с типом bug, попытайтесь провести его по всему workflow до Done.
+
+![bug_history](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-bug_history.jpg)
+  
+2. Создайте задачу с типом epic, к ней привяжите несколько задач с типом task, проведите их по всему workflow до Done. 
+3. При проведении обеих задач по статусам используйте kanban.
+
+![kanban](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-kanban.jpg)
+   
+4. Верните задачи в статус Open.
+
+![kanban-open](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-kanban-open.jpg)
+   
+5. Перейдите в Scrum, запланируйте новый спринт, состоящий из задач эпика и одного бага, стартуйте спринт, проведите задачи до состояния Closed. Закройте спринт.
+
+![scrum](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-scrum.jpg)
+
+![scrum_sprint](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-scrum_sprint.jpg)
+
+![scrum_sprint_complete](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/09-ci-01-intro-scrum_sprint_complete.jpg)
+
+   
+6. Если всё отработалось в рамках ожидания — выгрузите схемы workflow для импорта в XML. Файлы с workflow и скриншоты workflow приложите к решению задания.
+
+(bug_workflow)[https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_bug_workflow_netology.xml]
+
+(other_workflow)[https://github.com/Seleznev-Ivan/devops-netology/blob/main/files/seleznev_other_workflow_netology.xml]
 
 ---
 
