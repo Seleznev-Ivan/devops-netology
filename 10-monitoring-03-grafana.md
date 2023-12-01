@@ -47,12 +47,33 @@
 
 ![grafana2](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/10-grafana2.jpg)
 
+Утилизация CPU для nodeexporter (в процентах, 100-idle):
+
+```
+100 - (avg by (instance) (rate(node_cpu_seconds_total{job="nodeexporter",mode="idle"}[1m])) * 100)
+```
 ![grafana21](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/10-grafana2_CPU_Util.jpg)
+
+CPULA 1/5/15:
+
+```
+node_load1
+node_load5
+node_load15
+```
 
 ![grafana22](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/10-grafana2_CPULA.jpg)
 
+Количество свободной оперативной памяти:
+```
+node_memory_MemFree_bytes
+```
 ![grafana23](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/10-grafana2_FilesystemFree.jpg)
 
+Количество места на файловой системе:
+```
+node_filesystem_free_bytes
+```
 ![grafana24](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/10-grafana2_MemoryFree.jpg)
 
 
