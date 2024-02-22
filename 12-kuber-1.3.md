@@ -72,6 +72,7 @@ netology-deployment   1/1     1            1           6m
 
 Для увеличения количества реплик до 2 нужно поменять параметр spec:
   replicas: 1 на 2 в файле netology-deployment.yaml и запустить заново. Проверяю список  подов:
+  
 ![Kubernetes-Deployment-2repl](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.3-Kubernetes-1-Deployment-2repl.jpg)
 
 Создаю Service, который обеспечит доступ до реплик приложений nginx и multitool
