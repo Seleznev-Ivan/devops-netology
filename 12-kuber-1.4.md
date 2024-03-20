@@ -34,24 +34,31 @@
 ## Решение
 
 Создаю файл конфигурации Deployment:
+
 ![Kubernetes-deployment-conf](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-deployment-conf.jpg)
 
 Запускаю и проверяю список Deployment:
+
 ![Kubernetes-deployment-get](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-deployment-get.jpg)
 
 Создаю файл конфигурации Service:
+
 ![Kubernetes-service-conf](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-service-conf.jpg)
 
 Запускаю и проверяю список Service:
+
 ![Kubernetes-service-get](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-service-get.jpg)
 
 Создаю файл конфигурации Pod:
+
 ![Kubernetes-pod-conf](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-pod-conf.jpg)
 
 Запускаю и проверяю список Pod:
+
 ![Kubernetes-pod-get](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-pod-get.jpg)
 
 Curl проверяю доступ:
+
 ![Kubernetes-service-exec](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-1-netology-service-9001-9002-exec.jpg)
 
 
@@ -68,12 +75,15 @@ Curl проверяю доступ:
 ## Решение
 
 Создаю отдельный сервис с доступом снаружи:
+
 ![Kubernetes-service-external-conf](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-2-netology-service-external-conf.jpg)
 
 Запускаю и проверяю список Service:
+
 ![Kubernetes-service-external-get](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-2-netology-service-external-get.jpg)
 
 Проверяю доступ с помощью браузера:
+
 ![Kubernetes-service-external-http](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.4-Kubernetes-2-netology-service-external-http.jpg)
 
 ------
