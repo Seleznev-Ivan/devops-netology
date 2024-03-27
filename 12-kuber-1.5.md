@@ -80,6 +80,10 @@
 
 ![Kubernetes-ingress-enb](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.5-Kubernetes-2-netology-ingress-enb.jpg)
 
+Создаю файл конфигурации Ingress:
+
+![Kubernetes-ingress-conf](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.5-Kubernetes-2-netology-ingress-conf.jpg)
+
 Запускаю и проверяю список Ingress:
 
 ![Kubernetes-ingress-get](https://github.com/Seleznev-Ivan/devops-netology/blob/main/img/12-kuber-1.5-Kubernetes-2-netology-ingress-get.jpg)
